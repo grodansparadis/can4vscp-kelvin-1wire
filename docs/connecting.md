@@ -9,7 +9,7 @@ and other parameters. Drops with a maximum length of 24 meters can be
 taken from this cable and the sum of all drops must not exceed a total
 of 120 meters.
 
-![](./images/bus_drops.jpg)
+![](./docs/images/bus_drops.jpg)
 
 CAN4VSCP bus with drops and terminations
 
@@ -18,14 +18,14 @@ CAN4VSCP bus with drops and terminations
 The CAN4VSCP bus, as all CAN based networks, should be terminated with a
 120 ohms resistor between CANH and CANL at both ends of the cable.
 
-![](./images/can_bus.png)
+![](./docs/images/can_bus.png)
 
 If you use CAT5 this termination should be placed between the blue -
 blue/white cables at both end of your bus.
 
 On the board there is a jumper for an on-board terminator.
 
-![](./images/prototype2_terminator.png)
+![](./docs/images/prototype2_terminator.png)
 
 **Why is terminators required?**
 

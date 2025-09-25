@@ -23,7 +23,7 @@ Remember that there should be `at least two` CAN4VSCP (or other CAN device set t
 
 # Connecting temperature sensor(s)
 
-![](./images/termistor.jpg)
+![](./docs/images/termistor.jpg)
 
 To just test that communication works you don't need to install any external temperature sensors. You can work with the internal sensor. By default it will send the board temperature in degrees Celsius every 30 seconds. You can view VSCP traffic on the CAN4VSCP bus with all CAN tools set to 125kbit/s but (VSCP Works+)(https://grodansparadis.github.io/vscp-works-qt/#/) makes handling, configuring, diagnosing VSCP stuff a lot more easy. So this may be the time to get to know this piece of software that works on both Linux and Window.
 
@@ -39,7 +39,7 @@ Connect the thermistor to the Kelvin NTC10KA by connecting one end of it to +5VD
 
 ===== To measure temperature =====
 
-![](./images/tempdiff.jpg)
+![](./docs/images/tempdiff.jpg)
 
 If you want to measure a temperature, for a room for example, you will soon realize that temperature measurements has more to it then just hook up a sensor and measure the temperature. Look at the picture above.
 

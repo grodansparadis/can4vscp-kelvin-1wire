@@ -1,12 +1,12 @@
 ====== Hardware ======
 
 =====  Most current information ===== 
-You can find the most current information about the Beijing module at \\ [[http://www.grodansparadis.com/beijing/beijing.html]]. On the site you can also find links to the latest firmware, drivers and schematics etc for its use. 
+You can find the most current information about the Kelvin 1-wire module at \\ [[https://github.com/grodansparadis/can4vscp_kelvin_1wire]]. On the site you can also find links to the latest firmware, drivers and schematics etc for its use. 
 
 =====  The raw facts ===== 
 
 ^ Parameter ^ Value ^
-| Current hardware reversion | B |
+| Current hardware reversion | A |
 | Current firmware version | See [[https://github.com/grodansparadis/can4vscp_paris/releases|firmware release page]] |
 | Supply voltage | +9-+28 VDC |
 | PCB Size | 42mm x 72mm |
@@ -17,30 +17,9 @@ You can find the most current information about the Beijing module at \\ [[http:
 
 ===== Schematics =====
 
-{{:schema_kevin_ntc_rev_b.png?700|}}
-
-Schematics: Rev B (click picture to enlarge) 
+![](kelvin_1wire_sch_rev_a.png)
 
 ===== Components =====
-
-==== Internal temperature sensor ====
-
-The internal temperature sensor used on the Kelvin NTC10KA is the Murata [[https://www.google.se/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwiu-ujjlrnJAhWDjiwKHY9aCQQQFggiMAA&url=http%3A%2F%2Fwww.murata.com%2F~%2Fmedia%2Fwebrenewal%2Fsupport%2Flibrary%2Fcatalog%2Fproducts%2Fthermistor%2Fntc%2Fr44e.ashx&usg=AFQjCNE0U3R9tCH8Mm3JbRtiqhAN5yqOaQ&sig2=3Ga5yx9Fc6e15Gvr6YVbPg|NCP21XV103J03RA]]. Data for this sensor is as follows
-
-^ Description ^ Value ^
-| Time constant | 10 s |
-| B[25/100]- value |	3944K |
-| Temperature range |-40...+125ºC |
-| Resistance tolerance | 5% |
-| Resistance @ 25ºC | 10 Kohm |
-| Max effect | 210 @ 25ºC mW |
-| B[25/50]- value | 3900 |
-| B[25/85]- value | 3934 |
-| B[25/100]- value | 3944K 3% |
-| Max error (B[25/100])	| 2.8 (%/C) |
-
-
-
 
 
 {{::kelvin_parts_a.png?700|}}

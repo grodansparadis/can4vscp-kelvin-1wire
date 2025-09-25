@@ -1,6 +1,6 @@
 # Remote variables
 
-![](./images/remote-vars.png)
+![](./docs/images/remote-vars.png)
 
 Remote variables are used - just as registers - to read and write data from a remote device.  The remote device can be a sensor, an actuator, or any other device that can be read from or written to. You can read mote about remote variables in the [VSCP specification](https://grodansparadis.github.io/vscp-doc-spec/#/./vscp_register_abstraction_model?id=remote-variables). Remote variables relay on registers bit present content in registers on a higher abstraction level.
 

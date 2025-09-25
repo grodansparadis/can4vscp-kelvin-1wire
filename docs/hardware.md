@@ -27,13 +27,13 @@ Now your module is ready to use.
 
 ## Schematics
 
-![](./images/schema_kelvin_ntc_rev_b.png)
+![](./docs/images/schema_kelvin_ntc_rev_b.png)
 
 Schematics: Rev B  (right click and select view image to see it in full size)
 
 ## Components
 
-![](./images/kelvin_parts_a.png)
+![](./docs/images/kelvin_parts_a.png)
 
 The green **Init LED** show operational status. It blinks during initialization process and lights steady under normal operation.
 
@@ -45,7 +45,7 @@ The firmware of a circuit equipped with a Microchip microprocessor usually can b
 connector** is used to reprogram the module. This is more convenient to do using the bootloader software but in debugging or if the bootloader has gotten corrupt connecting a standard Microchip PIC programmer to this connector is the only way to reprogram the module. If you have a programmer for Microchip processors (Real ICE, ICD-2, ICD-3, PICKIT-2, PICKIT3 or other) you can program your own firmware or the latest official firmware into the module using MPLABX or similar tools. You can always find a link to the latest firmware on the [Kelvin NTC10K module
 home page](https://www.grodansparadis.com/kelvinntc10k/kelvin_ntc10ka.html).
 
-![](./images/kelvin_parts_b.png)
+![](./docs/images/kelvin_parts_b.png)
 
 The **power LED** (red) will light when the board is powered.
 
@@ -53,13 +53,13 @@ The **termination jumper** is used to activate the 120 ohm termination resistor 
 
 ## Connectors
 
-![](./images/kelvin_connectors.png)
+![](./docs/images/kelvin_connectors.png)
 
 To activate the **termination** solder a cable between holes. This will activate the 120 ohm resistor between CANH and CANL.
 
 ### Terminal block
 
-![](./images/terminationblock.png)  
+![](./docs/images/terminationblock.png)  
 
 The individual positions for the twelve position termination block is numbered from the right (looking into it) as in the figure below.
 
@@ -82,7 +82,7 @@ The individual positions for the twelve position termination block is numbered f
 
 where all temperature sensor inputs looks like this
 
-![](./images/kelvin_sensor_input.png)
+![](./docs/images/kelvin_sensor_input.png)
 
 
 
@@ -123,7 +123,7 @@ Recommended connector is RJ-34/RJ-12 or RJ-11 with pin out as in this table.
 |  7 6    | GND       |        | RJ-12 | RJ-45 | Brown/White |
 |  8      | GND       |        |       | RJ-45 | Brown |
 
-![RJ-11/12/45 pin-out](./images7rj45.jpg)
+![RJ-11/12/45 pin-out](./docs/images7rj45.jpg)
 
 Always use a pair of twisted wires for CANH/CANL for best noise immunity. If the EIA/TIA 56B standard is used this condition will be satisfied. This is good as most Ethernet networks already is wired this way.
 
@@ -141,7 +141,7 @@ The **daisy chain connector** is an alternative to the RJ-45 connector and can b
 | 4   | GND |
 
 
-![](./images/odessa_inter_module_connector.png)
+![](./docs/images/odessa_inter_module_connector.png)
 
 ### PIC programming Connector
 
@@ -155,7 +155,7 @@ The **daisy chain connector** is an alternative to the RJ-45 connector and can b
 | 6   | LWPGM |
 
 
-![](./images/odessa_programming_connector.png)
+![](./docs/images/odessa_programming_connector.png)
 
 ### Functionality of the status LED
 

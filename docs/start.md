@@ -1,17 +1,15 @@
-# Accra - General counter module
+# Kelvin 1-wire - Temperature module
 
 **Document reversion**: 1.0.0 2015-07-07
 
-Copyright © 2000-2020 Åke Hedman, [Grodans Paradis
+Copyright © 2000-2025 Åke Hedman, [Grodans Paradis
 AB](http://www.grodansparadis.com),
 \<[akhe@grodansparadis.com](akhe@grodansparadis.com)\>
 
-![Accra](/accra6.png)
+![Kelvin 1-wire](./docs/images/kelvin1wire.png)
 
-This documentation is for the [Accra
-module](http://www.grodansparadis.com/accra/accra.html). The module is
-available for international purchase from the
-[FrogShop](http://www.frogshop.se).
+This documentation is for the [Kelvin 1-wire
+module](https://github.com/grodansparadis/can4vscp_kelvin_1wire). 
 
   - [Introduction](Introduction)
   - [Getting Started](Getting%20Started)
@@ -26,7 +24,7 @@ available for international purchase from the
   - [Recipes](Recipes)
   - [faq](faq)
 
-//**Disclaimer:** © 2011-2015 Grodans Paradis AB. All rights reserved.
+//**Disclaimer:** © 2011-2025 Grodans Paradis AB. All rights reserved.
 Grodans Paradis AB®, logo and combinations thereof, are registered
 trademarks of Grodans Paradis AB. Other terms and product names may be
 trademarks of others. The information in this document is provided in
@@ -53,7 +51,6 @@ compliant.
   
 \---- ![](/grodan_logo.png)  
 <center> **Grodans Paradis AB** Brattbergavägen 17, 827 70 LOS SWEDEN  
-**email:** [info@grodansparadis.com](info@grodansparadis.com) **phone:**
-+46 (0)8 40011835  
+**email:** [info@grodansparadis.com](info@grodansparadis.com)   
 **web:**<https://www.grodansparadis.com>  
 </center>
