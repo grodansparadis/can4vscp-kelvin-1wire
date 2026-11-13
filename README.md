@@ -21,10 +21,10 @@ All VSCP modules contains information of there own setup, manual, hardware versi
 ## Project files
 
 ### User manual 
-  * [User Manual](https://grodansparadis.github.io/can4vscp_kelvin_1wire/#)
+  * [User Manual](https://grodansparadis.github.io/can4vscp-kelvin-1wire/#)
 
 ### Schematic, PCB, 3D files etc
-  * [Schematics reversion A](https://github.com/grodansparadis/can4vscp_kelvin_1wire/blob/master/eagle/kelvin_1wire_brd_rev_a.png)
+  * [Schematics reversion A](https://github.com/grodansparadis/can4vscp-kelvin-1wire/blob/master/eagle/kelvin_1wire_brd_rev_a.png)
  * Hardware design files is made in [KiCad](https://kicad.org) and can be found in the `kicad` directory. Valid from reversion A of the hardware.
    * Gerber files for PCB production can be found in the `gerber` directory (in the `kicad` folder).
  * Eagle schema and board files can be found in the `eagle` directory. They are no longer actively updated.
@@ -33,14 +33,14 @@ All VSCP modules contains information of there own setup, manual, hardware versi
 
  The firmware is developed in [MPLAB X IDE](https://www.microchip.com/mplab/mplab-x-ide) using the [XC8 compiler](https://www.microchip.com/mplab/compilers).
 
-  * Binary release files is available [here](https://github.com/grodansparadis/can4vscp_kelvin_1wire/releases)
+  * Binary release files is available [here](https://github.com/grodansparadis/can4vscp-kelvin-1wire/releases)
 
 ### MDF - Module Description File(s)
   * [MDF file version: A Release date: 2020-05-15](http://www.eurosource.se/1wire_1.xml.xml)
 
 
 ### Support
-If you need support, please open an issue in the [GitHub repository](https://github.com/grodansparadis/can4vscp_kelvin_1wire/issues).
+If you need support, please open an issue in the [GitHub repository](https://github.com/grodansparadis/can4vscp-kelvin-1wire/issues).
 
 ### Buy a ready made modules
 You can buy a ready made module from [Grodans Paradis](http://www.grodansparadis.com).
