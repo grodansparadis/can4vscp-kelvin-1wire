@@ -1,48 +1,37 @@
+# CAN4VSCP Kelvin 1-wire module
 
-# Manual for the Kelvin 1-Wire module
+**Document reversion**: 1.0.0  2016-04-05 <br>
+Copyright © 2000-2018 [Paradise of the Frog AB](http://www.paradiseofthefrog.com), <[contact](mailto:akhe@paradiseofthefrog.com)>
 
-**Document version:** ${/var/document-version} - ${/var/creation-time}
-[HISTORY](./history.md)
+![Kelvin NTC10K](media/kelvin14.png ':size=600')
 
+This documentation is for the [Kelvin 1-wire module](http://www.grodansparadis.com/Kelvin1w/index.html). The module is available for international purchase from the [FrogShop](http://www.frogshop.se/index.php?route=product/product&path=59&product_id=113).
 
-![Kelvin 1-wire](./docs/images/kelvin10.png)
+- [Introduction](introduction.md)
+- [Getting Started](getting_started.md)
+- [Hardware](hardware.md)
+- [CAN4VSCP cabling](can4vscp_cabling.md)
+- [Configure](configure.md)
+- [Updating the firmware](replacing_the_firmware.md)
+- [Registers](registers.md)
+- [Alarms](alarms.md)
+- [Decision Matrix](decisionmatrix.md)
+- [Recipes](recipes.md)
+- [faq](faq.md)
 
-The Kelvin 1-Wire module measures temperature using the 1-wire sensor DS18B20. It measures temperatures in a wide range and can achieve 0.5C accuracy in the range  -55°C to +125°C. It does so by allowing connection of up to eight external 1-wire temperature sensors. The measured temperature can be reported to other CAN4VSCP modules or to one or several servers so it can be collected in a database or visualized and analyzed in a diagram.  -55°C to +125°C
+<em>**Disclaimer:** © 2011-2018 Grodans Paradis AB. All rights reserved. Grodans Paradis AB®, logo and combinations thereof, are registered trademarks of Grodans Paradis AB. Other terms and product names may be trademarks of others. The information in this document is provided in connection with Grodans Paradis AB products. No license, express or implied or otherwise, to any intellectual property right is granted by this document or in connection with the sale of Grodans Paradis AB products. Neither the whole nor any part of the information contained in or the product described in this document may be adapted or reproduced in any material from except with the prior written permission of the copyright holder. The product described in this document is subject to continuous development and improvements. All particulars of the product and its use contained in this document are given by Grodans Paradis AB in good faith. However all warranties implied or expressed including but not limited to implied warranties of merchantability or fitness for purpose are excluded. This document is intended only to assist the reader in the use of the product. Grodans Paradis AB. shall not be liable for any loss or damage arising from the use of any information in this document or any error or omission in such information or any incorrect use of the product.</em>
 
-Temperature data can be presented by the module in Kelvin, Celsius or Fahrenheit.
+![](media/rohs.png ':size=100')
+All boards produced by Paradise of the Frog AB are ROHS compliant.
 
-Temperatures is reported automatically and it is possible to set alarms for high/low levels. Absolute low and high temperatures are collected and it is easy to construct autonomous and reliable temperature regulation systems.
+<br>
 
-The module fully adopts to the CAN4VSCP specification and can be powered directly over the bus with a 9-28V DC power source. It has a rich register set for configuration and any information events defined. It also have a decision matrix for easy dynamic event handling.
+---
 
-VSCP CAN modules are designed to work on a CAN4CAN bus which use ordinary RJ-45 connectors and is powered with 9-28V DC over the same cable. This means there is no need for a separate power cable. All that is needed is a CAT5 or better twisted pair cable. Buss length can be a maximum of 500 meters with drops of maximum 24 meters length (up to a total of 120 meters). As for all CAN4VSCP modules the communication speed is fixed at 125 kbps.
+![](media/grodan_logo.png ':size=100')
 
-All VSCP modules contains information of there own setup, manual, hardware version, manufacturer etc. You just ask the module for the information you need and you will get it. When they are started up they have a default functionality that often is all that is needed to get a working setup. If the module have something to report it will send you an event and if it is setup to react on a certain type of event it will do it's work when you send event(s) to it. 
-
-  * [GitHub repository for the module](https://github.com/grodansparadis/can4vscp_kelvin_1wire)
-  * This manual is available [here](https://grodansparadis.github.io/can4vscp_kelvin_1wire/)
-  * Latest KiCad schema for the module is available [here](https://github.com/grodansparadis/can4vscp_kelvin_1wire/tree/master/kicad)
-  * Latest firmware for the module is available [here](https://github.com/grodansparadis/can4vscp_kelvin_1wire/tree/master/firmware)
-  * [MDF for the module](https://github.com/grodansparadis/can4vscp_kelvin_1wire/tree/master/mdf)
-
-## VSCP
-
-![VSCP logo](./docs/images/logo_100.png)
-
-VSCP is a free and open automation protocol for IoT and m2m devices. Visit [the VSCP site](https://www.vscp.org) for more information.
-
-**VSCP is free.** Placed in the **public domain**. Free to use. Free of change. Free to do whatever you want to do with it. VSCP is not owned by anyone. VSCP will stay free and gratis forever.
-
-The specification for the VSCP protocol is [here](https://docs.vscp.org) 
-
-VSCP documentation for various parts can be found [here](https://docs.vscp.org/).
-
-If you use VSCP please consider contributing resources or time to the project ([https://github.com/sponsors/grodansparadis](https://github.com/sponsors/grodansparadis)).
-
-## Document license
-
-This document is licensed under [Creative Commons BY 4.0](https://creativecommons.org/licenses/by/4.0/) and can be freely copied, redistributed, remixed, transformed, built upon as long as you give credits to the author.
-
-
-
-[filename](./bottom-copyright.md ':include')
+<center>
+<b>Paradise of the Frog AB</b> Brattbergavägen 17, 820 50 LOS, SWEDEN<br />
+<b>email:</b> <a href="info@grodansparadis.com">info@paradiseofthefrog.com</a> <b>phone:</b> +46 (0)8 40011835<br />
+<b>web:</b> <a href="http://www.grodansparadis.com">http://www.paradiseofthefrog.com</a><br>
+</center>

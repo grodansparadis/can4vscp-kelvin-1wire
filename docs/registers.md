@@ -1,278 +1,418 @@
-# Introduction
+# Registers
 
-All VSCP modules have a set of 8-bit registers defined to export it's functionality in a common way. Some of them (register 128-255) are predefined and the information in them are the same for all VSCP modules. See the [VSCP specification](https://grodansparadis.github.io/vscp-doc-spec/#/./vscp_register_abstraction_model) for a description of their content.
+All VSCP modules have a set of 8-bit registers defined to export it's functionality in a common way. Some of them (register 128-255) are predefined and the information in them are the same for all VSCP modules. See the [VSCP specification](http://www.vscp.org/docs/vscpspec/doku.php?id=register_abstraction_model) for a description of their content.
 
 The lower 128 register space is used for module specific registers. It is also here you find registers with which you configure your module. Also registers where you typically can read status information such as measurement data from the module is here.
 
-The lower register space is further expanded in register pages (0-65535).
+The lower register space is further expanded in register pages.
 
-The registers of the Kelvin NTC10K module control the behaviour of the module. You write to the registers to configure the module and read from the registers to get status information from the module.
-
-With the registers you can set the unit in which the temperature measureent will be reported. You can read sensor values. Set periods for sensor value reporting. set high and low alarm points. Set hysteresis for the alarms. Set the B value for the NTC sensor. Set the zone and subzone for the sensor. Set absolute high and low values for the sensor. Set calibration values for the sensor. Set the voltage used for the sensor. Read raw A/D values from the sensor. An more.
-
-Below is a description of the registers available for the Kelvin NTC10KA module.
-
-# Register page 0
+Below is a description of the registers of the Kelvin NTC10KA module.
 
 ## Module zone registers
 
 | Register | Page | Description |
-| :--------: | :----: | ----------- |
-|  0  |  0  | The zone this module belongs to. |
-|  1  |  0  | The sub zone this module belongs to. |
+| --- | --- | --- |
+| 0 | 0 | The zone this module belongs to. |
+| 1 | 0 | The sub zone this module belongs to. |
+
+## Sensor zone registers
+
+| Register | Page | Description |
+| --- | --- | --- |
+| 2 | 0 | The zone for temperature sensor 0. |
+| 3 | 0 | The sub zone for temperature sensor 0. |
+| 4 | 0 | The zone for temperature sensor 1. |
+| 5 | 0 | The sub zone for temperature sensor 1. |
+| 6 | 0 | The zone for temperature sensor 2. |
+| 7 | 0 | The sub zone for temperature sensor 2. |
+| 8 | 0 | The zone for temperature sensor 3. |
+| 9 | 0 | The sub zone for temperature sensor 3. |
+| 10 | 0 | The zone for temperature sensor 4. |
+| 11 | 0 | The sub zone for temperature sensor 4. |
+| 12 | 0 | The zone for temperature sensor 5. |
+| 13 | 0 | The sub zone for temperature sensor 5. |
+| 14 | 0 | The zone for temperature sensor 6. |
+| 15 | 0 | The sub zone for temperature sensor 6. |
+| 16 | 0 | The zone for temperature sensor 7. |
+| 17 | 0 | The sub zone for temperature sensor 7. |
 
 ## Sensor Control Registers
 
-It is possible to configure which data is reported in the sensor control registers and how the data is reported.
-
+Configure which data is reported here and how it is reported and the overall functionality for each sensor.
 
 | Register | Page | Description |
-| :--------: | :----: | ----------- |
-|  2  |  0  | Control byte for sensor 0. |
-|  3  |  0  | Control byte for sensor 1. |
-|  4  |  0  | Control byte for sensor 2. |
-|  5  |  0  | Control byte for sensor 3. |
-|  6  |  0  | Control byte for sensor 4. |
-|  7  |  0  | Control byte for sensor 5. |
+| --- | --- | --- |
+| 18 | 0 | Control byte **low** for sensor 0. |
+| 19 | 0 | Control byte **high** for sensor 0. |
+| 20 | 0 | Control byte **low** for sensor 1. |
+| 21 | 0 | Control byte **high** for sensor 1. |
+| 22 | 0 | Control byte **low** for sensor 2. |
+| 23 | 0 | Control byte **high** for sensor 2. |
+| 24 | 0 | Control byte **low** for sensor 3. |
+| 25 | 0 | Control byte **high** for sensor 3. |
+| 26 | 0 | Control byte **low** for sensor 4. |
+| 27 | 0 | Control byte **high** for sensor 4. |
+| 28 | 0 | Control byte **low** for sensor 5. |
+| 29 | 0 | Control byte **high** for sensor 5. |
+| 30 | 0 | Control byte **low** for sensor 6. |
+| 31 | 0 | Control byte **high** for sensor 6. |
+| 32 | 0 | Control byte **low** for sensor 7. |
+| 33 | 0 | Control byte **high** for sensor 7. |
 
-### Description of control register bits
+### Description of low control register bits
 
 | Bit | Description |
-| :--: | ----------- |
-|  0,1  | Temperature `unit` to use <br />  **00** - Kelvin. <br /> **01** - Celsius (default). <br />  **10** - Fahrenheit. <br /> **11** - Reserved. |
-|  2  | Reserved. |
-|  3  | Set to one to enable `low alarm`. |
-|  4  | Set to one to enable `high alarm`. |
-|  5  | Send `**TurnOn/TurnOff` events instead of `Alarm` if set to one. |
-|  6  | Controls when `**TurnOn/TurnOff` events will be sent. <br /><br /> **If set to zero**:<br />  **TurnOn** event is sent when low temperature is reached as set in `low temperature alarm register`.<br />  **TurnOff** event is sent when high temperature is reached as set in `high temperature alarm register`.<br /> <br />**If set to one**:<br />  **TurnOff** event is sent when low temperature is reached a temperature as set in `low temperature alarm register`.<br />  **TurnOn** event is sent when high temperature is reached as set in `high temperature alarm register`.<br /> <br /> The hysteresis value in the [`see sensor hysteresis registers`](./registers?id=sensor-hysteresis-registers) will effect `**TurnOn/TurnOff` events. The temperature must go above or below the hysteresis value before a new event will be sent out. |
-|  7  | **If this bit is set** `Alarm events` (or TurnOff/TurnOn events) will be sent continuous with a one second interval until the alarm register is read or the temperature goes to a non alarm state (with hysteresis taken into account) [`see low alarm registers`](#low-alarm-registers). `TurnOn/TurnOff` events will not be affected by a cleared [alarm register (0x80)](https://grodansparadis.github.io/vscp-doc-spec/#/./vscp_register_abstraction_model?id=register-abstraction-modelidregister_abstraction_model) (alarm events will) and will be sent until this bit is cleared or the temperature goes to a non alarm state (with hysteresis taken into account). |
+| --- | --- |
+| 0,1 | **Temperature report unit** <br><br>**00** - Kelvin. <br>**01** - Celsius (default). <br> **10** - Fahrenheit. <br>**11** - Reserved. |
+| 2 | Reserved. |
+| 3 | Enable low alarm if set to one. |
+| 4 | Enable high alarm if set to one. |
+| 5 | Send **TurnOn/TurnOff** events instead of Alarm if set to one. |
+| 6 | Controls when **TurnOn/TurnOff** events will be sent if activated. <br><br>0 - **TurnOn** event is sent when low temperature is reached as set in low temperature alarm register (see [sub:Low-alarm-registers]). **TurnOff** event is sent when high temperature is reached as set in high temperature alarm register (see [sub:High-alarm-registers]).<br><br>1 - **TurnOff** event is sent when low temperature is reached as set in low temperature alarm register (see [sub:Low-alarm-registers]). **TurnOn** event is sent when high temperature is reached as set in high temperature alarm register (see [sub:High-alarm-registers]). <br><br>The hysteresis value (see [sub:Sensor-hysteresis-registers]) will effect **TurnOn/TurnOff** events The temperature must go above or below the hysteresis value before a new event will be sent out. |
+| 7 | If this bit is set sn Alarm events will be sent continuous with a one second interval until the alarm register is read or the temperature goes to a non alarm state (with hysteresis taken into account see [sub:Low-temperature-alarm](sub/low-temperature-alarm.md)). **TurnOn/TurnOff** events will not be affected by a cleared alarm register and will be sent until this bit is cleared or the temperature goes to a non alarm state (with hysteresis taken into account. |
 
-  * `ClASS1.ALARM, Alarm occured event` is documented [here](https://grodansparadis.github.io/vscp-doc-spec/#/./class1.alarm?id=type2).
-  * `CLASS1.CONTROL, TurnOff event` is documented [here](https://grodansparadis.github.io/vscp-doc-spec/#/./class1.control?id=type6).
-  * `CLASS1.CONTROL, TurnOn event` is documented [here](https://grodansparadis.github.io/vscp-doc-spec/#/./class1.control?id=type5).
+### Description of high control register bits
 
-
-## Temperature registers
-
-| Register | Page | Description |
-| :--------: | :----: | ----------- |
-|  8  |  0  | Temperature sensor 0 MSB (on board sensor). |
-|  9  |  0  | Temperature sensor 0 LSB (on board sensor). |
-|  10  |  0  | Temperature sensor 1 MSB. |
-|  11  |  0  | Temperature sensor 1 LSB. |
-|  12  |  0  | Temperature sensor 2 MSB. |
-|  13  |  0  | Temperature sensor 2 LSB. |
-|  14  |  0  | Temperature sensor 3 MSB. |
-|  15  |  0  | Temperature sensor 3 LSB. |
-|  16  |  0  | Temperature sensor 4 MSB. |
-|  17  |  0  | Temperature sensor 4 LSB. |
-|  18  |  0  | Temperature sensor 5 MSB. |
-|  19  |  0  | Temperature sensor 5 LSB. |
-
-All values stored as a twos complement number as temperature * 100.
+| Bit | Description |
+| --- | --- |
+| 0,1 | **Report format** <br><br>**00** - CLASS=10, Report as int. <br>**01** - CLASS=10, Report as float (default). <br> **10** - CLASS=10, Report as string. <br>**11** - Reserved. |
+| 2-7 | Reserved |
 
 ## Report interval registers
 
 | Register | Page | Description |
-| :--------: | :----: | ----------- |
-|  20  |  0  | Report interval for sensor 0 in seconds (Set to zero for no report). |
-|  21  |  0  | Report interval for sensor 1 in seconds (Set to zero for no report). |
-|  22  |  0  | Report interval for sensor 2 in seconds (Set to zero for no report). |
-|  23  |  0  | Report interval for sensor 3 in seconds (Set to zero for no report). |
-|  24  |  0  | Report interval for sensor 4 in seconds (Set to zero for no report). |
-|  25  |  0  | Report interval for sensor 5 in seconds (Set to zero for no report). |
+| --- | --- | --- |
+| 34 | 0 | Report interval for sensor 0 in seconds (Set to zero for no report). |
+| 35 | 0 | Report interval for sensor 1 in seconds (Set to zero for no report). |
+| 36 | 0 | Report interval for sensor 2 in seconds (Set to zero for no report). |
+| 37 | 0 | Report interval for sensor 3 in seconds (Set to zero for no report). |
+| 38 | 0 | Report interval for sensor 4 in seconds (Set to zero for no report). |
+| 39 | 0 | Report interval for sensor 5 in seconds (Set to zero for no report). |
+| 40 | 0 | Report interval for sensor 6 in seconds (Set to zero for no report). |
+| 41 | 0 | Report interval for sensor 7 in seconds (Set to zero for no report). |
 
-
-## β constant registers
+## B constant for on-board sensor
 
 | Register | Page | Description |
-| :--------: | :----: | ----------- |
-|  38  |  0  | B constant for sensor 0 MSB. |
-|  39  |  0  | B constant for sensor 0 LSB. |
-|  40  |  1  | B constant for sensor 1 MSB. |
-|  41  |  1  | B constant for sensor 1 LSB. |
-|  42  |  2  | B constant for sensor 2 MSB. |
-|  43  |  2  | B constant for sensor 2 LSB. |
-|  44  |  3  | B constant for sensor 3 MSB. |
-|  45  |  3  | B constant for sensor 3 LSB. |
-|  46  |  4  | B constant for sensor 4 MSB. |
-|  47  |  4  | B constant for sensor 4 LSB. |
-|  48  |  5  | B constant for sensor 5 MSB. |
-|  49  |  5  | B constant for sensor 5 LSB. |
+| --- | --- | --- |
+| 42 | 0 | This register holds the most significant byte of the NTC B constant for sensor 9 the on-board sensor. |
+| 43 | 0 | This register holds the least significant byte of the NTC B constant for sensor 9 the on-board sensor. |
 
-You find the B value for a specific NTC temperature sensor in it's datasheet. The correct B value set here is essential for the temperature calculations to be correct.
+# Page 1
 
-You can us [this web-page](http://www.thinksrs.com/downloads/programs/Therm%20Calc/NTCCalibrator/NTCcalculator.htm) for a 10K thermistor if you have a sensor with an unknown beta value. The tool is also useful if yuu want to calibrate your sensor over a sspecific temperature range.
+## Temperature registers
 
+Temperatures is stored as 32-bit floating point numbers in big-endian format (MSB first).
+
+| Register | Page | Description |
+| --- | --- | --- |
+| 0 | 0 | Temperature sensor 0 MSB. |
+| 1 | 0 | Temperature sensor 0. |
+| 2 | 0 | Temperature sensor 0. |
+| 3 | 0 | Temperature sensor 0 LSB. |
+| 4 | 0 | Temperature sensor 1 MSB. |
+| 5 | 0 | Temperature sensor 1. |
+| 6 | 0 | Temperature sensor 1. |
+| 7 | 0 | Temperature sensor 1 LSB. |
+| 8 | 0 | Temperature sensor 2 MSB. |
+| 9 | 0 | Temperature sensor 2. |
+| 10 | 0 | Temperature sensor 2. |
+| 11 | 0 | Temperature sensor 2 LSB. |
+| 12 | 0 | Temperature sensor 3 MSB. |
+| 13 | 0 | Temperature sensor 3. |
+| 14 | 0 | Temperature sensor 3. |
+| 15 | 0 | Temperature sensor 3 LSB. |
+| 16 | 0 | Temperature sensor 4 MSB. |
+| 17 | 0 | Temperature sensor 4. |
+| 18 | 0 | Temperature sensor 4. |
+| 19 | 0 | Temperature sensor 4 LSB. |
+| 20 | 0 | Temperature sensor 5 MSB. |
+| 21 | 0 | Temperature sensor 5. |
+| 22 | 0 | Temperature sensor 5. |
+| 23 | 0 | Temperature sensor 5 LSB. |
+| 24 | 0 | Temperature sensor 6 MSB. |
+| 25 | 0 | Temperature sensor 6. |
+| 26 | 0 | Temperature sensor 6. |
+| 27 | 0 | Temperature sensor 6 LSB. |
+| 28 | 0 | Temperature sensor 7 MSB. |
+| 29 | 0 | Temperature sensor 7. |
+| 30 | 0 | Temperature sensor 7. |
+| 31 | 0 | Temperature sensor 7 LSB. |
+| 32 | 0 | Temperature sensor 8 MSB (on board sensor). |
+| 33 | 0 | Temperature sensor 8. (on board sensor). |
+| 34 | 0 | Temperature sensor 8. (on board sensor). |
+| 35 | 0 | Temperature sensor 8 LSB (on board sensor). |
+
+- Sensor 0 and sensor 1 is on channel 0.
+- Sensor 2 and sensor 3 is on channel 1.
+- Sensor 4 and sensor 5 is on channel 2.
+- Sensor 6 and sensor 7 is on channel 3.
+- Sensor 9 is the on-board NTC sensor.
+
+# Page 2
 
 ## Low alarm registers
 
 | Register | Page | Description |
-| :--------: | :----: | ----------- |
-|  50  |  0  | Low alarm set point for sensor 0 MSB. |
-|  51  |  0  | Low alarm set point for sensor 0 LSB. |
-|  52  |  0  | Low alarm set point for sensor 1 MSB. |
-|  53  |  0  | Low alarm set point for sensor 1 LSB. |
-|  54  |  0  | Low alarm set point for sensor 2 MSB. |
-|  55  |  0  | Low alarm set point for sensor 2 LSB. |
-|  56  |  0  | Low alarm set point for sensor 3 MSB. |
-|  57  |  0  | Low alarm set point for sensor 3 LSB. |
-|  58  |  0  | Low alarm set point for sensor 4 MSB. |
-|  59  |  0  | Low alarm set point for sensor 4 LSB. |
-|  60  |  0  | Low alarm set point for sensor 5 MSB. |
-|  61  |  0  | Low alarm set point for sensor 5 LSB. |
+| --- | --- | --- |
+| 0 | 2 | Low alarm set point for sensor 0 MSB. |
+| 1 | 2 | Low alarm set point for sensor 0 LSB. |
+| 2 | 2 | Low alarm set point for sensor 1 MSB. |
+| 3 | 2 | Low alarm set point for sensor 1 LSB. |
+| 4 | 2 | Low alarm set point for sensor 2 MSB. |
+| 5 | 2 | Low alarm set point for sensor 2 LSB. |
+| 6 | 2 | Low alarm set point for sensor 3 MSB. |
+| 7 | 2 | Low alarm set point for sensor 3 LSB. |
+| 8 | 2 | Low alarm set point for sensor 4 MSB. |
+| 9 | 2 | Low alarm set point for sensor 4 LSB. |
+| 10 | 2 | Low alarm set point for sensor 5 MSB. |
+| 11 | 2 | Low alarm set point for sensor 5 LSB. |
+| 12 | 2 | Low alarm set point for sensor 6 MSB. |
+| 13 | 2 | Low alarm set point for sensor 6 LSB. |
+| 14 | 2 | Low alarm set point for sensor 7 MSB. |
+| 15 | 2 | Low alarm set point for sensor 7 LSB. |
 
 Writing any of these registers will reset high/low alarm conditions for that sensor.
 
-The value is stored as a twos complement number representing the temperature. **Note** note that the value is not stored as temperature times 100 as for some other registers.
-
-The hysteresis value affects the low alarm after a low alarm condition has been set. The temperature must increase with `hysteresis degrees` before the low alarm condition is resetted.
-
+The value is stored as a twos complement number as temperature * 100.
 
 ## High alarm registers
 
 | Register | Page | Description |
-| :--------: | :----: | ----------- |
-|  62  |  0  | High alarm set point for sensor 0 MSB. |
-|  63  |  0  | High alarm set point for sensor 0 LSB. |
-|  64  |  0  | High alarm set point for sensor 1 MSB. |
-|  65  |  0  | High alarm set point for sensor 1 LSB. |
-|  66  |  0  | High alarm set point for sensor 2 MSB. |
-|  67  |  0  | High alarm set point for sensor 2 LSB. |
-|  68  |  0  | High alarm set point for sensor 3 MSB. |
-|  69  |  0  | High alarm set point for sensor 3 LSB. |
-|  70  |  0  | High alarm set point for sensor 4 MSB. |
-|  71  |  0  | High alarm set point for sensor 4 LSB. |
-|  72  |  0  | High alarm set point for sensor 5 MSB. |
-|  73  |  0  | High alarm set point for sensor 5 LSB. |
+| --- | --- | --- |
+| 16 | 2 | High alarm set point for sensor 0 MSB. |
+| 17 | 2 | High alarm set point for sensor 0 LSB. |
+| 18 | 2 | High alarm set point for sensor 1 MSB. |
+| 19 | 2 | High alarm set point for sensor 1 LSB. |
+| 20 | 2 | High alarm set point for sensor 2 MSB. |
+| 21 | 2 | High alarm set point for sensor 2 LSB. |
+| 22 | 2 | High alarm set point for sensor 3 MSB. |
+| 23 | 2 | High alarm set point for sensor 3 LSB. |
+| 24 | 2 | High alarm set point for sensor 4 MSB. |
+| 25 | 2 | High alarm set point for sensor 4 LSB. |
+| 26 | 2 | High alarm set point for sensor 5 MSB. |
+| 27 | 2 | High alarm set point for sensor 5 LSB. |
+| 28 | 2 | High alarm set point for sensor 6 MSB. |
+| 29 | 2 | High alarm set point for sensor 6 LSB. |
+| 30 | 2 | High alarm set point for sensor 7 MSB. |
+| 31 | 2 | High alarm set point for sensor 7 LSB. |
 
 Writing any of these registers will reset high/low alarm conditions for that sensor.
 
-The value is stored as a twos complement number representing the temperature. **Note** note that the value is not stored as temperature times 100 as for some other registers.
-
-The hysteresis value affects the high alarm after a high alarm condition has been set. The temperature must decrease with `hysteresis degrees` before the high alarm condition is resetted.
-
-## Sensor zone information registers
-
-Zone and subzone is used to identify the sensor that originated an event. For measurements the [senoridex](https://grodansparadis.github.io/vscp-doc-spec/#/./vscp_measurements?id=datacoding) is used to identify the sensor. The zone and subzone can also be used to identify the location of the sensor.
-
-| Register | Page | Description |
-| :------: | :--: | ----------- |
-|  74  |  0  | Zone for sensor 0 alarms. |
-|  75  |  0  | Sub zone for sensor 0 alarms. |
-|  76  |  0  | Zone for sensor 1 alarms. |
-|  77  |  0  | Sub zone for sensor 1 alarms. |
-|  78  |  0  | Zone for sensor 2 alarms. |
-|  79  |  0  | Sub zone for sensor 2 alarms. |
-|  80  |  0  | Zone for sensor 3 alarms. |
-|  81  |  0  | Sub zone for sensor 3 alarms. |
-|  82  |  0  | Zone for sensor 4 alarms. |
-|  83  |  0  | Sub zone for sensor 4 alarms. |
-|  84  |  0  | Zone for sensor 5 alarms. |
-|  85  |  0  | Sub zone for sensor 5 alarms. |
+The value is stored as a twos complement number as temperature * 100.
 
 ## Sensor absolute low temperature registers
 
 | Register | Page | Description |
-| :------: | :--: | ----------- |
-|  86  |  0  | Absolute low for sensor 0 MSB (Write to reset). |
-|  87  |  0  | Absolute low for sensor 0 LSB (Write to reset). |
-|  88  |  0  | Absolute low for sensor 1 MSB (Write to reset). |
-|  89  |  0  | Absolute low for sensor 1 LSB (Write to reset). |
-|  90  |  0  | Absolute low for sensor 2 MSB (Write to reset). |
-|  91  |  0  | Absolute low for sensor 2 LSB (Write to reset). |
-|  92  |  0  | Absolute low for sensor 3 MSB (Write to reset). |
-|  93  |  0  | Absolute low for sensor 3 LSB (Write to reset). |
-|  94  |  0  | Absolute low for sensor 4 MSB (Write to reset). |
-|  95  |  0  | Absolute low for sensor 4 LSB (Write to reset). |
-|  96  |  0  | Absolute low for sensor 5 MSB (Write to reset). |
-|  97  |  0  | Absolute low for sensor 5 LSB (Write to reset). |
+| --- | --- | --- |
+| 32 | 2 | Absolute low for sensor 0 MSB (Write to reset). |
+| 33 | 2 | Absolute low for sensor 0 LSB (Write to reset). |
+| 34 | 2 | Absolute low for sensor 1 MSB (Write to reset). |
+| 35 | 2 | Absolute low for sensor 1 LSB (Write to reset). |
+| 36 | 2 | Absolute low for sensor 2 MSB (Write to reset). |
+| 37 | 2 | Absolute low for sensor 2 LSB (Write to reset). |
+| 38 | 2 | Absolute low for sensor 3 MSB (Write to reset). |
+| 39 | 2 | Absolute low for sensor 3 LSB (Write to reset). |
+| 40 | 2 | Absolute low for sensor 4 MSB (Write to reset). |
+| 41 | 2 | Absolute low for sensor 4 LSB (Write to reset). |
+| 42 | 2 | Absolute low for sensor 5 MSB (Write to reset). |
+| 43 | 2 | Absolute low for sensor 5 LSB (Write to reset). |
+| 44 | 2 | Absolute low for sensor 6 MSB (Write to reset). |
+| 45 | 2 | Absolute low for sensor 6 LSB (Write to reset). |
+| 46 | 2 | Absolute low for sensor 7 MSB (Write to reset). |
+| 47 | 2 | Absolute low for sensor 7 LSB (Write to reset). |
 
-The value is stored as a twos complement number as temperature * 100.  Writing any of the registers will reset the value.
+The value is stored as a twos complement number as temperature * 100.  Writing any of the registers will rest the value.
 
 ## Sensor absolute high temperature registers
 
 | Register | Page | Description |
-| :------: | :--: | ----------- |
-|  98  |  0  | Absolute high for sensor 0 MSB (Write to reset). |
-|  99  |  0  | Absolute high for sensor 0 LSB (Write to reset). |
-|  100  |  0  | Absolute high for sensor 1 MSB (Write to reset). |
-|  101  |  0  | Absolute high for sensor 1 LSB (Write to reset). |
-|  102  |  0  | Absolute high for sensor 2 MSB (Write to reset). |
-|  103  |  0  | Absolute high for sensor 2 LSB (Write to reset). |
-|  104  |  0  | Absolute high for sensor 3 MSB (Write to reset). |
-|  105  |  0  | Absolute high for sensor 3 LSB (Write to reset). |
-|  106  |  0  | Absolute high for sensor 4 MSB (Write to reset). |
-|  107  |  0  | Absolute high for sensor 4 LSB (Write to reset). |
-|  108  |  0  | Absolute high for sensor 5 MSB (Write to reset). |
-|  109  |  0  | Absolute high for sensor 5 LSB (Write to reset). |
+| --- | --- | --- |
+| 48 | 2 | Absolute high for sensor 0 MSB (Write to reset). |
+| 49 | 2 | Absolute high for sensor 0 LSB (Write to reset). |
+| 50 | 2 | Absolute high for sensor 1 MSB (Write to reset). |
+| 51 | 2 | Absolute high for sensor 1 LSB (Write to reset). |
+| 52 | 2 | Absolute high for sensor 2 MSB (Write to reset). |
+| 53 | 2 | Absolute high for sensor 2 LSB (Write to reset). |
+| 54 | 2 | Absolute high for sensor 3 MSB (Write to reset). |
+| 55 | 2 | Absolute high for sensor 3 LSB (Write to reset). |
+| 56 | 2 | Absolute high for sensor 4 MSB (Write to reset). |
+| 57 | 2 | Absolute high for sensor 4 LSB (Write to reset). |
+| 58 | 2 | Absolute high for sensor 5 MSB (Write to reset). |
+| 59 | 2 | Absolute high for sensor 5 LSB (Write to reset). |
+| 60 | 2 | Absolute high for sensor 6 MSB (Write to reset). |
+| 61 | 2 | Absolute high for sensor 6 LSB (Write to reset). |
+| 62 | 2 | Absolute high for sensor 7 MSB (Write to reset). |
+| 63 | 2 | Absolute high for sensor 7 LSB (Write to reset). |
 
-The value is stored as a twos complement number as temperature * 100.  Writing any of the registers will reset the stored value.
+The value is stored as a twos complement number as temperature * 100.  Writing any of the registers will rest the value.
 
 ## Sensor hysteresis registers
 
 | Register | Page | Description |
-| :------: | :--: | ----------- |
-|  110  |  0  | Hysteresis in degrees Celsius for sensor 0 (default is 5 degrees). |
-|  111  |  0  | Hysteresis in degrees Celsius for sensor 1 (default is 5 degrees). |
-|  112  |  0  | Hysteresis in degrees Celsius for sensor 2 (default is 5 degrees). |
-|  113  |  0  | Hysteresis in degrees Celsius for sensor 3 (default is 5 degrees). |
-|  114  |  0  | Hysteresis in degrees Celsius for sensor 4 (default is 5 degrees). |
-|  115  |  0  | Hysteresis in degrees Celsius for sensor 5 (default is 5 degrees). |
-
-The value here will affect the high and low alarms
-
-### Voltage calibration registers
-
-The Voltage used to calculate the temperature for a sensor have effect on the error. The voltage is theoretically 5V but will in reality be something else but still close to 5V. These register can be used to set a calibrated voltage obtained from actual measurements. The value stored in the two registers is the voltage times 10000 so 5V for example should be stored as 50000.
-
-| Register | Page | Description |
-| :------: | :--: | ----------- |
-|  118  |  0  | MSB of Voltage (Default is 0xC3). |
-|  119  |  0  | MSB of Voltage (Default is 0x50). |
-
-
-# Register page 1
-
-
-## Raw A/D values
-
-Raw A/D values from the temperature sensor network can be read if it is a need for that. This can be useful for special nonstandard setups. The A/D converter is a 10-bit converter so the value can be 0-1023 and is stored MSB first in the registers (not in the converter itself though) as all values are stored in VSCP. The registers can only be read, a write is ignored.
-
-| Register | Page | Description |
-| :------: | :--: | ----------- |
-|  72  |  1  | MSB of A/D converter value for sensor 0. |
-|  73  |  1  | LSB of A/D converter value for sensor 0. |
-|  74  |  1  | MSB of A/D converter value for sensor 1. |
-|  75  |  1  | LSB of A/D converter value for sensor 1. |
-|  76  |  1  | MSB of A/D converter value for sensor 2. |
-|  77  |  1  | LSB of A/D converter value for sensor 2. |
-|  78  |  1  | MSB of A/D converter value for sensor 3. |
-|  79  |  1  | LSB of A/D converter value for sensor 3. |
-|  80  |  1  | MSB of A/D converter value for sensor 4. |
-|  81  |  1  | LSB of A/D converter value for sensor 4. |
-|  82  |  1  | MSB of A/D converter value for sensor 5. |
-|  83  |  1  | LSB of A/D converter value for sensor 5. |
+| --- | --- | --- |
+| 64 | 2 | Hysteresis in degrees Celsius for sensor 0 (default is 5 degrees). |
+| 65 | 2 | Hysteresis in degrees Celsius for sensor 1 (default is 5 degrees). |
+| 66 | 2 | Hysteresis in degrees Celsius for sensor 2 (default is 5 degrees). |
+| 67 | 2 | Hysteresis in degrees Celsius for sensor 3 (default is 5 degrees). |
+| 68 | 2 | Hysteresis in degrees Celsius for sensor 4 (default is 5 degrees). |
+| 69 | 2 | Hysteresis in degrees Celsius for sensor 5 (default is 5 degrees). |
+| 70 | 2 | Hysteresis in degrees Celsius for sensor 6 (default is 5 degrees). |
+| 71 | 2 | Hysteresis in degrees Celsius for sensor 7 (default is 5 degrees). |
 
 ## Sensor calibration registers
 
-The value in the calibration register is added to the measured sensor value before it's reported. The calibration value is stored as a two's complement temperature * 100 to allow for both positive and negative numbers. So 24.23 degrees is stored as 2423 and so on. This means that 100 will add one degree to the measured value while 65436 (0xFF9c) is -100 and will subtract one degree form the measured value. If you are unsecure on how two complement numbers work there is a guide [here](https://www.cs.cornell.edu/~tomf/notes/cps104/twoscomp.html)
+The value in the calibration register is added to the measured sensor value before it's reported. The calibration value is stored as a two's complement temperature * 100 to allow for both positive and negative numbers. So 24.23 degrees is stored as 2423 and so on. This means that 100 will add one degree to the measured value while 65436 (0xFF9c) is -100 and will subtract one degree form the measured value. If you are unsecure on how two complement umbers work there is an introduction here https://www.cs.cornell.edu/~tomf/notes/cps104/twoscomp.html
 
 | Register | Page | Description |
-| :------: | :--: | ----------- |
-|  84  |  1  | MSB of calibration value for sensor 0. |
-|  85  |  1  | LSB of calibration value for sensor 0. |
-|  86  |  1  | MSB of calibration value for sensor 1. |
-|  87  |  1  | LSB of calibration value for sensor 1. |
-|  88  |  1  | MSB of calibration value for sensor 2. |
-|  89  |  1  | LSB of calibration value for sensor 2. |
-|  90  |  1  | MSB of calibration value for sensor 3. |
-|  91  |  1  | LSB of calibration value for sensor 3. |
-|  92  |  1  | MSB of calibration value for sensor 4. |
-|  93  |  1  | LSB of calibration value for sensor 4. |
-|  94  |  1  | MSB of calibration value for sensor 5. |
-|  95  |  1  | LSB of calibration value for sensor 5. |
+| --- | --- | --- |
+| 72 | 2 | MSB of calibration value for sensor 0. |
+| 73 | 2 | LSB of calibration value for sensor 0. |
+| 74 | 2 | MSB of calibration value for sensor 1. |
+| 75 | 2 | LSB of calibration value for sensor 1. |
+| 76 | 2 | MSB of calibration value for sensor 2. |
+| 77 | 2 | LSB of calibration value for sensor 2. |
+| 78 | 2 | MSB of calibration value for sensor 3. |
+| 79 | 2 | LSB of calibration value for sensor 3. |
+| 80 | 2 | MSB of calibration value for sensor 4. |
+| 81 | 2 | LSB of calibration value for sensor 4. |
+| 82 | 2 | MSB of calibration value for sensor 5. |
+| 83 | 2 | LSB of calibration value for sensor 5. |
+| 84 | 2 | MSB of calibration value for sensor 6. |
+| 85 | 2 | LSB of calibration value for sensor 6. |
+| 86 | 2 | MSB of calibration value for sensor 7. |
+| 87 | 2 | LSB of calibration value for sensor 7. |
+| 88 | 2 | MSB of calibration value for on board temperature sensor. |
+| 89 | 2 | LSB of calibration value for on board temperature sensor. |
 
+# Page 3
 
-  
-[filename](./bottom-copyright.md ':include')
+### Channel control register
+
+- Writing a one to bit 0 will search for the first two temperature sensors that an be found on channel 1 and save there address information in the address array.
+- Writing a one to bit 1 will search for the first two temperature sensors that an be found on channel 2 and save there address information in the address array.
+- Writing a one to bit 2 will search for the first two temperature sensors that an be found on channel 3 and save there address information in the address array.
+- Writing a one to bit 3 will search for the first two temperature sensors that an be found on channel 4 and save there address information in the address array.
+
+The array is filled with the first found sensor in index position zero and the next found sensor in the index position one. This mean that if there are more sensors in attached thy will not be visible to the module but the functionality will be the same. Only DS1820, DS18S20 and DS18B20 is recognized.
+
+It is also possible to enter the ROM codes manually.
+
+The sensor search is the the most sensitive operation of the 1-wire protocol. If you have long cable lengths ( >5 meters) and/or bad cables and/or are in a bad environment. you may need to do the search several times to find the sensors on a channel. One way around this is to get the sensors ROM code and set it manually (search it with the sensor at a closer distance) and after that mount it on the long cable. [There is a paper here](https://www.maximintegrated.com/en/app-notes/index.mvp/id/148) discussing how to use long cable runs on 1-wire networks.
+
+A [CLASS1.INFORMATION, Type=37, Token activity event](http://www.vscp.org/docs/vscpspec/doku.php?id=class1.information#type_37_0x25_token_activity) is sent for each found device on the one wire bus is the corresponding bit in the upper half nibble is set.
+
+Will always read as zero.
+
+| Register | Page | Description |
+| --- | --- | --- |
+| 0 | 3 | Channel control register |
+
+| Bit | Description |
+| --- | --- |
+| 0 | Channel 0 ROM code find is performed if the channel control register is written with this bit set. |
+| 1 | Channel 1 ROM code find is performed if the channel control register is written with this bit set. |
+| 2 | Channel 2 ROM code find is performed if the channel control register is written with this bit set. |
+| 3 | Channel 3 ROM code find is performed if the channel control register is written with this bit set. |
+| 4 | [CLASS1.INFORMATION, Type=37, Token activity](http://www.vscp.org/docs/vscpspec/doku.php?id=class1.information#type_37_0x25_token_activity) events are sent for all found devices on channel 0. Note that the event is sent for all found not only the two temperature sensors that when found are placed in the ROM code array if the corresponding low nibble bit also is set. |
+| 5 | [CLASS1.INFORMATION, Type=37, Token activity](http://www.vscp.org/docs/vscpspec/doku.php?id=class1.information#type_37_0x25_token_activity) events are sent for all found devices on channel 1. Note that the event is sent for all found not only the two temperature sensors that when found are placed in the ROM code array if the corresponding low nibble bit also is set. |
+| 6 | [CLASS1.INFORMATION, Type=37, Token activity](http://www.vscp.org/docs/vscpspec/doku.php?id=class1.information#type_37_0x25_token_activity) events are sent for all found devices on channel 2. Note that the event is sent for all found not only the two temperature sensors that when found are placed in the ROM code array if the corresponding low nibble bit also is set. |
+| 7 | [CLASS1.INFORMATION, Type=37, Token activity](http://www.vscp.org/docs/vscpspec/doku.php?id=class1.information#type_37_0x25_token_activity) events are sent for all found devices on channel 3. Note that the event is sent for all found not only the two temperature sensors that when found are placed in the ROM code array if the corresponding low nibble bit also is set. |
+
+### ROM code registers
+
+64-Bit Lasered ROM Code for sensors connected to **channel 0**. Initialized to zero.
+
+| Register | Page | Description |
+| --- | --- | --- |
+| 1 | 3 | CRC of ROM Code for sensor 0 MSB |
+| 2 | 3 | 48 bit serial of ROM Code for sensor 0 (Stored big endian) |
+| 3 | 3 | 48 bit serial of ROM Code for sensor 0 (Stored big endian) |
+| 4 | 3 | 48 bit serial of ROM Code for sensor 0 (Stored big endian) |
+| 5 | 3 | 48 bit serial of ROM Code for sensor 0 (Stored big endian) |
+| 6 | 3 | 48 bit serial of ROM Code for sensor 0 (Stored big endian) |
+| 7 | 3 | 48 bit serial of ROM Code for sensor 0 (Stored big endian) |
+| 8 | 3 | 8 bit family code of ROM Code for sensor 0 |
+| 9 | 3 | CRC of ROM Code for sensor 1 MSB |
+| 10 | 3 | 48 bit serial of ROM Code for sensor 1 (Stored big endian) |
+| 11 | 3 | 48 bit serial of ROM Code for sensor 1 (Stored big endian) |
+| 12 | 3 | 48 bit serial of ROM Code for sensor 1 (Stored big endian) |
+| 13 | 3 | 48 bit serial of ROM Code for sensor 1 (Stored big endian) |
+| 14 | 3 | 48 bit serial of ROM Code for sensor 1 (Stored big endian) |
+| 15 | 3 | 48 bit serial of ROM Code for sensor 1 (Stored big endian) |
+| 16 | 3 | 8 bit family code of ROM Code for sensor 1 |
+
+64-Bit Lasered ROM Code for sensors connected to **channel 1**. Initialized to zero.
+
+| Register | Page | Description |
+| --- | --- | --- |
+| 17 | 3 | CRC of ROM Code for sensor 2 MSB |
+| 18 | 3 | 48 bit serial of ROM Code for sensor 2 (Stored big endian) |
+| 19 | 3 | 48 bit serial of ROM Code for sensor 2 (Stored big endian) |
+| 20 | 3 | 48 bit serial of ROM Code for sensor 2 (Stored big endian) |
+| 21 | 3 | 48 bit serial of ROM Code for sensor 2 (Stored big endian) |
+| 22 | 3 | 48 bit serial of ROM Code for sensor 2 (Stored big endian) |
+| 23 | 3 | 48 bit serial of ROM Code for sensor 2 (Stored big endian) |
+| 24 | 3 | 8 bit family code of ROM Code for sensor 2 |
+| 25 | 3 | CRC of ROM Code for sensor 3 MSB |
+| 26 | 3 | 48 bit serial of ROM Code for sensor 3 (Stored big endian) |
+| 27 | 3 | 48 bit serial of ROM Code for sensor 3 (Stored big endian) |
+| 28 | 3 | 48 bit serial of ROM Code for sensor 3 (Stored big endian) |
+| 29 | 3 | 48 bit serial of ROM Code for sensor 3 (Stored big endian) |
+| 30 | 3 | 48 bit serial of ROM Code for sensor 3 (Stored big endian) |
+| 31 | 3 | 48 bit serial of ROM Code for sensor 3 (Stored big endian) |
+| 32 | 3 | 8 bit family code of ROM Code for sensor 3 |
+
+64-Bit Lasered ROM Code for sensors connected to **channel 2**. Initialized to zero.
+
+| Register | Page | Description |
+| --- | --- | --- |
+| 33 | 3 | CRC of ROM Code for sensor 4 MSB |
+| 34 | 3 | 48 bit serial of ROM Code for sensor 4 (Stored big endian) |
+| 35 | 3 | 48 bit serial of ROM Code for sensor 4 (Stored big endian) |
+| 36 | 3 | 48 bit serial of ROM Code for sensor 4 (Stored big endian) |
+| 37 | 3 | 48 bit serial of ROM Code for sensor 4 (Stored big endian) |
+| 38 | 3 | 48 bit serial of ROM Code for sensor 4 (Stored big endian) |
+| 39 | 3 | 48 bit serial of ROM Code for sensor 4 (Stored big endian) |
+| 40 | 3 | 8 bit family code of ROM Code for sensor 4 |
+| 41 | 3 | CRC of ROM Code for sensor 5 MSB |
+| 42 | 3 | 48 bit serial of ROM Code for sensor 5 (Stored big endian) |
+| 43 | 3 | 48 bit serial of ROM Code for sensor 5 (Stored big endian) |
+| 44 | 3 | 48 bit serial of ROM Code for sensor 5 (Stored big endian) |
+| 45 | 3 | 48 bit serial of ROM Code for sensor 5 (Stored big endian) |
+| 46 | 3 | 48 bit serial of ROM Code for sensor 5 (Stored big endian) |
+| 47 | 3 | 48 bit serial of ROM Code for sensor 5 (Stored big endian) |
+| 48 | 3 | 8 bit family code of ROM Code for sensor 5 |
+
+64-Bit Lasered ROM Code for sensors connected to **channel 3**. Initialized to zero.
+
+| Register | Page | Description |
+| --- | --- | --- |
+| 49 | 3 | CRC of ROM Code for sensor 6 MSB |
+| 50 | 3 | 48 bit serial of ROM Code for sensor 6 (Stored big endian) |
+| 51 | 3 | 48 bit serial of ROM Code for sensor 6 (Stored big endian) |
+| 52 | 3 | 48 bit serial of ROM Code for sensor 6 (Stored big endian) |
+| 53 | 3 | 48 bit serial of ROM Code for sensor 6 (Stored big endian) |
+| 54 | 3 | 48 bit serial of ROM Code for sensor 6 (Stored big endian) |
+| 55 | 3 | 48 bit serial of ROM Code for sensor 6 (Stored big endian) |
+| 56 | 3 | 8 bit family code of ROM Code for sensor 6 |
+| 57 | 3 | CRC of ROM Code for sensor 7 MSB |
+| 58 | 3 | 48 bit serial of ROM Code for sensor 7 (Stored big endian) |
+| 59 | 3 | 48 bit serial of ROM Code for sensor 7 (Stored big endian) |
+| 60 | 3 | 48 bit serial of ROM Code for sensor 7 (Stored big endian) |
+| 61 | 3 | 48 bit serial of ROM Code for sensor 7 (Stored big endian) |
+| 62 | 3 | 48 bit serial of ROM Code for sensor 7 (Stored big endian) |
+| 63 | 3 | 48 bit serial of ROM Code for sensor 7 (Stored big endian) |
+| 64 | 3 | 8 bit family code of ROM Code for sensor 7 |
+
+<br>
+
+---
+
+![](media/grodan_logo.png ':size=100')
+
+<center>
+<b>Paradise of the Frog AB</b> Brattbergavägen 17, 820 50 LOS, SWEDEN<br />
+<b>email:</b> <a href="info@grodansparadis.com">info@paradiseofthefrog.com</a> <b>phone:</b> +46 (0)8 40011835<br />
+<b>web:</b> <a href="http://www.grodansparadis.com">http://www.paradiseofthefrog.com</a><br>
+</center>

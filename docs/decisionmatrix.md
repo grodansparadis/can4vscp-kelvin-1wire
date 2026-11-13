@@ -1,33 +1,31 @@
 # Decision Matrix
 
-The full functionality of the decision matrix is explained [in the
-specification](https://grodansparadis.github.io/vscp-doc-spec/#/./vscp_decision_matrix).
+# Decision Matrix
 
-Paris have a decision matrix consisting of eight entries. This matrix
-can be used to control the relays. Possible actions are listed in the
-table below.
+The full functionality of the decision matrix is explained [in the specification](http://www.vscp.org/docs/vscpspec/doku.php?id=decision_matrix).
+
+The module have a decision matrix consisting of eight entries. This matrix can be used to control the scanning of channels. Possible actions are listed in the table below.
 
 | Action | Action code | Parameter | Description |
-| ------ | ----------- | --------- | ----------- |
-| **NOOP**         | 0 (0x00) | Not used   |                              No operation. Will do absolutely nothing.| 
-| **ACTIVATE**     | 1 (0x01) | Relays to activate (bit array) | Activate relay(s) given by argument. The argument is a bit array where bit 0 is relay 1 and so on. That is a position with a set bit will activate the corresponding relay. Byte 1 is Zone and byte 2 is sub-zone and must be equal to register content to trigger action. | 
-| **DEACTICATE**   | 2 (0x02) | Relays to deactivate (bit array) | Deactivate relay(s) given by argument. The argument is a bit array where bit 0 is relay 1 and so on. That is a position with a set bit will inactivate the corresponding relay. Byte 1 is Zone and byte 2 is sub-zone and must be equal to register content to trigger action.| 
-| **PULSEON**      | 3 (0x03) | Relays to pulse (bit array) | Pulse relay(s) given by argument. The argument is a bit array where bit 0 is relay 1 and so on. That is a position with a set bit will toggle the corresponding relay. Byte 1 is Zone and byte 2 is sub-zone and must be equal to register content to trigger action.| 
-|               |  4 (0x04)      |    |                                    Reserved.| 
-|               | 5 (0x05)       |    |                                    Reserved.| 
-|               |  6 (0x06)      |    |                                    Reserved.| 
-|               | 7 (0x07)       |    |                                    Reserved.| 
-|               | 8 (0x08)       |    |                                    Reserved.| 
-|              | 9 (0x09)        |    |                                    Reserved.| 
-| **STATUS**    | 10 (0x0a)      | Relays to send status for (bit array) |  Send relay status. The argument is a bit array where bit 0 is relay 1 and so on. That is a position with a set bit will have a status event sent for the corresponding relay.| 
-|                | 11 (0x0b)     |    |                                   Reserved.| 
-|                | 12 (0x0c)     |    |                                   Reserved.| 
-|                | 13 (0x0d)     |    |                                   Reserved.| 
-|                | 14 (0x0e)     |    |                                   Reserved.| 
-|                | 15 (0x0f)     |    |                                   Reserved.| 
-| **DISABLE**      | 16 (0x10)  | Relays to disable (bit array) | Disable relay(s) given by argument. The argument is a bit array where bit 0 is relay 1 and so on. That is a position with a set bit will disable the corresponding relay. Byte 1 is Zone and byte 2 is zone page and must be equal to register content to trigger action. | 
+| --- | --- | --- | --- |
+| **NOOP** | 0 | Not used | No operation. Will do absolutely nothing. |
+| **Scan** | 1 | Bit-array for channels. | Scan for ROM codes for channel which have bit set. Bit 1 is channel 0m bit 2 is channel 1 ans so on. |
+| **Scan and Store** | 2 | Bit-array for channels | Scan for ROM codes for channel which have bit set and store result.  Bit 1 is channel 0, bit 2 is channel 1 and so on. |
+| **Report** | 3 | Bit-array for sensors | Report temperature for sensors that have bit in array set. Bit0 = Sensor 0, Bit1 = Sensor 2 and so on. |
+| **Clear alarm** | 4 | Not used | Clear alarm flags. |
+| **Clear high** | 5 | Bit array for sensors. | Clear absolute high value for sensor(s) identified by bit-array. Bit0 = Sensor 0, Bit1 = Sensor 2 and so on. |
+| **Clear low** | 6 | Bit array for sensors. | Clear absolute low value for sensor(s) identified by bit-array. Bit0 = Sensor 0, Bit1 = Sensor 2 and so on. |
 
+The bit arrays have a bit for each channel. So 1 (0x0001) is channel 0 and 2 (0b0010) is channel 1, and 4 (0x0100) is channel 2 and 8(0x1000) is channel 3. It is also possible to assign several channels  so that 15 (0x1111) is all channels and 3 (0x0011) is channel 0 + 1.
 
+<br>
 
-  
-[filename](./bottom-copyright.md ':include')
+---
+
+![](media/grodan_logo.png ':size=100')
+
+<center>
+<b>Paradise of the Frog AB</b> Brattbergavägen 17, 820 50 LOS, SWEDEN<br />
+<b>email:</b> <a href="info@grodansparadis.com">info@paradiseofthefrog.com</a> <b>phone:</b> +46 (0)8 40011835<br />
+<b>web:</b> <a href="http://www.grodansparadis.com">http://www.paradiseofthefrog.com</a><br>
+</center>
